@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express');
 
 const app = express();
@@ -16,4 +17,8 @@ app.get('/', (req, res) => {
   res.send('Successful response.');
 });
 
-app.listen(3000, () => console.log('Example app is listening on port 3000.'));
+const PORT = process.env.PORT || 8080
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}.`)
+})
