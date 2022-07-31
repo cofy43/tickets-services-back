@@ -18,6 +18,7 @@ module.exports = {
         acquire: 30000,
         idle: 10000,
       },
+      logging: false, // Solo en local que no sea vean los log
       define: { underscored: true, timestamps: true, freezeTableName: true },
     },
     SYNC: {
