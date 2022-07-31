@@ -20,7 +20,7 @@ module.exports = {
             message: `El estatus: "${req.body.name}" ya existe`
           })
         } else {
-          return res.status(500).send(err.message); 
+          return res.status(500).send({ message: err.message }); 
         }
       });
   },
@@ -30,7 +30,7 @@ module.exports = {
     .then((statusList) => {
       return res.status(200).send(statusList);
     }).catch((err) => {
-      return res.status(500).send(err.message); 
+      return res.status(500).send({ message: err.message }); 
     });
   }
 }
