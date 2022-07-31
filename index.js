@@ -1,6 +1,7 @@
 require("dotenv").config();
 const cors = require('cors')
 const express = require("express");
+const { routes } = require('./routes')
 const { FRONT_URL } = require('./config')
 
 const app = express();
@@ -14,19 +15,7 @@ app.use(
   })
 );
 
-app.use((req, res, next) => {
-  console.log("Time: ", Date.now());
-  next();
-});
-
-app.use("/request-type", (req, res, next) => {
-  console.log("Request type: ", req.method);
-  next();
-});
-
-app.get("/", (req, res) => {
-  res.send("Successful response.");
-});
+routes(app) // Agregamos todas las rutas que se encuentran en routes/index.js
 
 const PORT = process.env.PORT || 8080;
 
