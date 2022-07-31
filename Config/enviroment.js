@@ -1,5 +1,5 @@
 class Environment {
-  constructor({ FRONT_URL, database }) {
+  constructor({ FRONT_URL, database, ENV }) {
     this.ENV = ENV;
     this.FRONT_URL = FRONT_URL;
     this.database = new Database(database);
