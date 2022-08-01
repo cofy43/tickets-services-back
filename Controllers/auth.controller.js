@@ -42,11 +42,12 @@ module.exports = {
                 }
               );
               member.removePasswordAndSalt();
-              res.status(200).send(member);
+              return res.status(200).send(member);
+            } else {
+              return res
+                .status(401)
+                .send({ message: "Usuario o contraseña incorrecta" });
             }
-            return res
-              .status(401)
-              .send({ message: "Usuario o contraseña incorrecta" });
           })
           .catch((err) => {
             console.log(err);

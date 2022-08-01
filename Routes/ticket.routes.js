@@ -18,5 +18,5 @@ module.exports.ticketRoutes = (app) => {
     memberController.assisngTicket
   );
 
-  app.use("/tickets", authenticateJWT, router);
+  app.use("/tickets", router);
 };
