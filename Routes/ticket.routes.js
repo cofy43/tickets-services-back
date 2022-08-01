@@ -13,7 +13,8 @@ module.exports.ticketRoutes = (app) => {
     clientController.createFindCliet,
     memberController.getMoreFreeMember,
     statusController.getFirstStatus,
-    ticketController.createTicket
+    ticketController.createTicket,
+    memberController.assisngTicket
   );
 
   app.use("/tickets", router);

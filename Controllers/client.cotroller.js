@@ -21,12 +21,11 @@ module.exports = {
         },
       })
       .then((clients) => {
-        if (clients.length) {
-          console.log(clients[0].dataValues);
-          req.clietId = clients[0].dataValues.id;
+        if (clients.length) {          
+          req.clientId = clients[0].dataValues.id;
           delete req.body.client;
           next(); // Create a ticket
-        } else {
+        } else {          
           db.client
             .create(req.body.client)
             .then((newClient) => {
@@ -34,7 +33,7 @@ module.exports = {
               delete req.body.client;
               next(); // Find the more free member
             })
-            .catch((err) => {
+            .catch((err) => {              
               return res.status(500).send({ message: err.message });
             });
         }
