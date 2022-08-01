@@ -33,7 +33,7 @@ module.exports = {
         include: [
           {
             model: db.status,
-            attributes: ["name", "esFinal"],
+            attributes: ["name", "esFinal", "position"],
           },
         ],
       })
@@ -47,7 +47,7 @@ module.exports = {
       });
   },
 
-  ticketInfoForMember(req, res) {
+  ticketInfoForMember(req, res, next) {
     const { ticketId } = req.params;
     const { memberId } = req.member;
     db.ticket
@@ -64,7 +64,12 @@ module.exports = {
       .then((ticket) => {
         if (!ticket)
           return res.status(404).send({ message: "Ticket no encontrado" });
-        return res.status(200).send(ticket);
+        // If the ticket is closed
+        if (ticket.dataValues.status.esFinal)
+          return res.status(200).send(ticket);
+        // If istn't closed so search the next and the previus status
+        req.ticket = ticket;
+        next();
       })
       .catch((err) => {
         return res.status(404).send({ message: "Ticket no encontrado" });

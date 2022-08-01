@@ -22,7 +22,8 @@ module.exports.ticketRoutes = (app) => {
 
   router.get("/detail/:ticketId", 
     authenticateJWT,
-    ticketController.ticketInfoForMember
+    ticketController.ticketInfoForMember,
+    statusController.getPreviousAndNexstatus
   );
 
   app.use("/tickets", router);

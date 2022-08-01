@@ -43,12 +43,43 @@ module.exports = {
         order: sequelize.fn("min", sequelize.col("position")),
         group: "id",
       })
-      .then((firstStatus) => {        
+      .then((firstStatus) => {
         req.statusId = firstStatus.dataValues.id;
         next(); // Create a ticket
       })
       .catch((err) => {
         return res.status(500).send({ message: err.message });
+      });
+  },
+
+  getPreviousAndNexstatus(req, res) {
+    const { position } = req.ticket.status;
+    db.status
+      .findAll({
+        where: {
+          position: [position - 1, position + 1],
+        },
+      })
+      .then((status) => {
+        // We has previus and next status
+        const ticket = req.ticket;
+        if (status.length === 2) {
+          ticket.dataValues.status.dataValues.nextStatus =
+            status[0].dataValues.id;
+          ticket.dataValues.status.dataValues.previusStatus =
+            status[1].dataValues.id;
+        } else {
+          ticket.dataValues.status.dataValues.nextStatus =
+            status[0].dataValues.id;
+        }
+        return res.status(200).send(ticket);
+      })
+      .catch((err) => {
+        return res
+          .status(500)
+          .send({
+            message: "Ocurrio un error inesperado, contacte a soporte técnico",
+          });
       });
   },
 };
