@@ -6,9 +6,7 @@ module.exports = {
     const newTiket = req.body;
     newTiket.statusId = statusId;
     newTiket.clientId = clientId;
-    newTiket.memberId = memberId;
-    console.log("newTiket");
-    console.log(newTiket);
+    newTiket.memberId = memberId;    
     db.ticket
       .create(newTiket)
       .then((result) => {
