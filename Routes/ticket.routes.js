@@ -4,6 +4,7 @@ const {
   memberController,
   statusController,
 } = require("../Controllers");
+const { authenticateJWT } = require('../Middlewares/authentication.middleware')
 
 module.exports.ticketRoutes = (app) => {
   const router = require("express").Router();
@@ -17,5 +18,5 @@ module.exports.ticketRoutes = (app) => {
     memberController.assisngTicket
   );
 
-  app.use("/tickets", router);
+  app.use("/tickets", authenticateJWT, router);
 };

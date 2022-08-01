@@ -1,10 +1,14 @@
-require("dotenv").config();
+require("dotenv").config()
 const cors = require('cors')
 const express = require("express");
 const { routes } = require('./routes')
 const { FRONT_URL } = require('./config')
+const requestIp = require('request-ip')
+var cookies = require("cookie-parser")
 
 const app = express();
+
+app.use(cookies())
 
 app.use(express.json()); // parse requests of content-type - application/json
 
@@ -14,6 +18,8 @@ app.use(
     credentials: true,
   })
 );
+
+app.use(requestIp.mw())
 
 routes(app) // Agregamos todas las rutas que se encuentran en routes/index.js
 

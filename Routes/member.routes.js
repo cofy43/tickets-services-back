@@ -1,4 +1,5 @@
 const { memberController } = require('../Controllers');
+const { authenticateJWT } = require('../Middlewares/authentication.middleware')
 
 module.exports.memberRoutes = (app) => {
   const router = require('express').Router();
@@ -13,5 +14,5 @@ module.exports.memberRoutes = (app) => {
    */
   router.put('/:memberId', memberController.updateMember)
 
-  app.use('/member', router);
+  app.use('/member', authenticateJWT, router);
 }

@@ -1,4 +1,5 @@
 const { statusController } = require("../Controllers");
+const { authenticateJWT } = require('../Middlewares/authentication.middleware')
 
 module.exports.statusRoutes = (app) => {
   const router = require("express").Router();
@@ -13,5 +14,5 @@ module.exports.statusRoutes = (app) => {
    */
   router.get("/all", statusController.getStatusList)
 
-  app.use("/status", router);
+  app.use("/status", authenticateJWT, router);
 };

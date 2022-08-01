@@ -1,6 +1,8 @@
 module.exports = {
   ENV: "development",
   FRONT_URL: process.env.FRONT_URL,
+  TOKEN_SECRET: process.env.TOKEN_SECRET,
+  TOKEN_EXPIRES: process.env.TOKEN_EXPIRES || '1d',
   database: {
     URL: process.env.DATABASE_URL,
     OPTIONS: {
