@@ -2,7 +2,7 @@ const db = require("../Models");
 const moment = require("moment");
 const { generateJWT } = require("../Middlewares/authentication.middleware");
 const jwt = require('jsonwebtoken')
-const { TOKEN_SECRET } = require('../config')
+const { TOKEN_SECRET } = require('../app/Config')
 
 module.exports = {
   login(req, res) {
