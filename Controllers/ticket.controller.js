@@ -20,7 +20,64 @@ module.exports = {
       });
   },
 
-  updateTicketStatus(req, res) {},
+  preprareChange(req, res, next) {
+    const { ticketId } = req.params;
+    const { memberId } = req.member;
+    db.ticket
+      .findOne({
+        where: {
+          id: ticketId,
+          memberId: memberId,
+        },
+        include: [{ model: db.status, attributes: ["position", "esFinal"] }],
+      })
+      .then((ticket) => {        
+        if (!ticket)
+          return res.status(404).send({ message: "Ticket no encontrado" });
+
+        if (ticket.dataValues.status.dataValues.esFinal)
+          return res.status(400).send({
+            message:
+              "Ticket ya no se puede actualizar porque se encuentra en un estatus final",
+          });
+        // We validated that the new status have a previus or next position
+        // than the previus status
+        req.ticket = ticket;
+        next();
+      })
+      .catch((err) => {
+        console.log(err);
+        return res.status(404).send({ message: "Ticket no encontrado" });
+      });
+  },
+
+  updateTicketStatus(req, res, next) {
+    const { ticketId } = req.params;
+    const { esFinal } = req.body;
+    db.ticket
+      .update(req.body, {
+        where: {
+          id: ticketId,
+        },
+        returning: true,
+        plain: true,
+        include: [{ model: db.status, attributes: ["esFinal"] }],
+      })
+      .then((ticket) => {
+        if (esFinal) {
+          // Reduced the active tickets count of member 
+          next();
+        }
+        return res.status(200).send(ticket);
+      })
+      .catch((err) => {
+        console.log(err);
+        return res.status(500).send({
+          message:
+            "Ha ocurrido un error inesperdado, contacte a soporte técnico",
+        });
+      });
+  },
 
   ticketInfoForCustomer(req, res) {
     const { ticketName } = req.body;

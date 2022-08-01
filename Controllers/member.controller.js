@@ -68,16 +68,25 @@ module.exports = {
 
   assisngTicket(req, res, next) {
     const { memberId } = req;
-    db.member.increment(
-      { activeTickets: 1, totalTickets: 1 },
-      { where: { id: memberId } }
-    )
+    db.member
+      .increment(
+        { activeTickets: 1, totalTickets: 1 },
+        { where: { id: memberId } }
+      )
       .then((result) => {
         // TODO: send notification to assinged member in this part
-        console.log(result);
-        next()
-      }).catch((err) => {
+        next();
+      })
+      .catch((err) => {
         return res.status(500).send({ message: err.message });
       });
-  }
+  },
+
+  ticketEnding(req, res) {
+    const { memberId } = req.member;
+    return db.member.decrement(
+      { activeTickets: 1 },
+      { where: { id: memberId } }
+    );
+  },
 };

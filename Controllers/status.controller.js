@@ -1,4 +1,4 @@
-const { UniqueConstraintError } = require("sequelize");
+const { UniqueConstraintError, Op } = require("sequelize");
 const sequelize = require("sequelize");
 const db = require("../models");
 
@@ -57,29 +57,61 @@ module.exports = {
     db.status
       .findAll({
         where: {
-          position: [position - 1, position + 1],
+          [Op.and]: [
+            { position: [position - 1, position + 1] },
+            { esFinal: false },
+          ],
         },
       })
       .then((status) => {
         // We has previus and next status
         const ticket = req.ticket;
         if (status.length === 2) {
-          ticket.dataValues.status.dataValues.nextStatus =
+          ticket.dataValues.status.dataValues.nextStatusId =
             status[0].dataValues.id;
-          ticket.dataValues.status.dataValues.previusStatus =
+          ticket.dataValues.status.dataValues.previusStatusId =
             status[1].dataValues.id;
-        } else {
-          ticket.dataValues.status.dataValues.nextStatus =
+        } else if (status.length) {
+          ticket.dataValues.status.dataValues.nextStatusId =
             status[0].dataValues.id;
         }
         return res.status(200).send(ticket);
       })
       .catch((err) => {
-        return res
-          .status(500)
-          .send({
-            message: "Ocurrio un error inesperado, contacte a soporte técnico",
-          });
+        return res.status(500).send({
+          message: "Ocurrio un error inesperado, contacte a soporte técnico",
+        });
       });
+  },
+
+  haveValidPostion(req, res, next) {
+    const { position } = req.ticket.dataValues.status.dataValues;
+    const { newStatusId } = req.body;
+    // Find if new status' position has distance
+    // 1 of actuall status' position of if end
+    db.status
+      .findOne({
+        where: {
+          [Op.and]: [
+            { id: newStatusId },
+            {
+              [Op.or]: [
+                { position: position - 1 },
+                { position: position + 1 },
+                { esFinal: true },
+              ],
+            },
+          ],
+        },
+      })
+      .then((status) => {
+        if (!status)
+          return res.status(400).send({ message: "Estatus invalido" });
+        // We updated the status and notes
+        req.body.esFinal = status.dataValues.esFinal;
+        req.body.statusId = status.dataValues.id;
+        next();
+      })
+      .catch((err) => {});
   },
 };
