@@ -31,7 +31,7 @@ module.exports = {
         },
         include: [{ model: db.status, attributes: ["position", "esFinal"] }],
       })
-      .then((ticket) => {        
+      .then((ticket) => {
         if (!ticket)
           return res.status(404).send({ message: "Ticket no encontrado" });
 
@@ -65,7 +65,7 @@ module.exports = {
       })
       .then((ticket) => {
         if (esFinal) {
-          // Reduced the active tickets count of member 
+          // Reduced the active tickets count of member
           next();
         }
         return res.status(200).send(ticket);
@@ -130,6 +130,62 @@ module.exports = {
       })
       .catch((err) => {
         return res.status(404).send({ message: "Ticket no encontrado" });
+      });
+  },
+
+  ticketsTodo(req, res) {
+    const { memberId } = req.member;
+    db.ticket
+      .findAll({
+        where: { memberId: memberId },
+        include: [
+          {
+            model: db.status,
+            where: {
+              esFinal: false,
+            },
+          },
+          { model: db.client },
+        ],
+      })
+      .then((listTodo) => {
+        return res.status(200).send(listTodo);
+      })
+      .catch((err) => {
+        return res
+          .status(500)
+          .send({
+            message:
+              "Ha ocurrido un error inesperdado, contacte a soporte técnico",
+          });
+      });
+  },
+
+  ticketsCompleted(req, res) {
+    const { memberId } = req.member;
+    db.ticket
+      .findAll({
+        where: { memberId: memberId },
+        include: [
+          {
+            model: db.status,
+            where: {
+              esFinal: true,
+            },
+          },
+          { model: db.client },
+        ],
+      })
+      .then((completedTickets) => {
+        return res.status(200).send(completedTickets);
+      })
+      .catch((err) => {
+        return res
+          .status(500)
+          .send({
+            message:
+              "Ha ocurrido un error inesperdado, contacte a soporte técnico",
+          });
       });
   },
 };

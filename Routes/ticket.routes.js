@@ -36,5 +36,9 @@ module.exports.ticketRoutes = (app) => {
     memberController.ticketEnding
   );
 
+  router.get("/todo", authenticateJWT, ticketController.ticketsTodo)
+
+  router.get("/completed", authenticateJWT, ticketController.ticketsCompleted)
+
   app.use("/tickets", router);
 };
