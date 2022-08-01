@@ -1,8 +1,8 @@
 require("dotenv").config()
 const cors = require('cors')
 const express = require("express");
-const { routes } = require('./Routes')
-const { FRONT_URL } = require('./Config')
+const { routes } = require('./app/Routes')
+const { FRONT_URL } = require('./app/Config')
 const requestIp = require('request-ip')
 var cookies = require("cookie-parser")
 

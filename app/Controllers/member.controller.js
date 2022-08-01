@@ -1,6 +1,6 @@
 const { Op, UniqueConstraintError } = require("sequelize");
 const sequelize = require("sequelize");
-const db = require("../models");
+const db = require("../Models");
 
 module.exports = {
   /**

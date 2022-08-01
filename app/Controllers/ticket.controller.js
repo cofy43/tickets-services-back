@@ -1,4 +1,4 @@
-const db = require("../../models");
+const db = require("../Models");
 
 module.exports = {
   createTicket(req, res, next) {

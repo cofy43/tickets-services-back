@@ -1,6 +1,6 @@
 const { associateModels } = require('./associations')
 const { Sequelize } = require('sequelize')
-const { database } = require('../app/Config')
+const { database } = require('../Config')
 
 const sequelize = new Sequelize(database.URL, database.OPTIONS)
 
