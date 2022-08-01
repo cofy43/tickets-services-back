@@ -22,7 +22,25 @@ module.exports = {
 
   updateTicketStatus(req, res) {},
 
-  ticketInfoForCustomer(req, res) {},
+  ticketInfoForCustomer(req, res) {
+    const { ticketName } = req.body
+    db.ticket.findOne({
+      where: {
+        name: ticketName
+      },
+      attributes: ["name", "notes"],
+      include: [{
+        model: db.status,               
+        attributes: ["name", "esFinal"]
+      }]
+    })
+      .then((ticket) => {
+        if (!ticket) return res.status(404).send({ message: "Ticket no encontrado" });
+        return res.status(200).send(ticket);
+      }).catch((err) => {
+        return res.status(404).send({ message: "Ticket no encontrado" })
+      });
+  },
 
   ticketInfoForMember(req, res) {},
 };

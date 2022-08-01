@@ -18,5 +18,7 @@ module.exports.ticketRoutes = (app) => {
     memberController.assisngTicket
   );
 
+  router.get("/info", ticketController.ticketInfoForCustomer);
+
   app.use("/tickets", router);
 };

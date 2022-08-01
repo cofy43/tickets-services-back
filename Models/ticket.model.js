@@ -15,6 +15,10 @@ module.exports = (sequelize) => {
       name: {
         type: DataTypes.STRING,        
       },
+      notes: {
+        type: DataTypes.TEXT,
+        defaultValue: "",
+      }
     },
     {
       sequelize,
