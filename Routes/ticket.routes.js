@@ -20,5 +20,10 @@ module.exports.ticketRoutes = (app) => {
 
   router.get("/info", ticketController.ticketInfoForCustomer);
 
+  router.get("/detail/:ticketId", 
+    authenticateJWT,
+    ticketController.ticketInfoForMember
+  );
+
   app.use("/tickets", router);
 };
