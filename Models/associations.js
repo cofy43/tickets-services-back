@@ -9,8 +9,14 @@ function associateModels(db) {
   })
   db.ticket.belongsTo(db.status)
 
-  // Relation One to One
-  db.client.belongsTo(db.ticket)
+  // Relation Many to One
+  db.client.hasMany(db.ticket, {
+    foreignKey: {
+      allowNull: false,
+      name: 'clientId'
+    },
+    as: 'tickets'
+  })
   db.ticket.belongsTo(db.client)
 
   // Relation One to One

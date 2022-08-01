@@ -5,4 +5,5 @@ const { ticketRoutes } = require('./ticket.routes');
 module.exports.routes = (app) => {
   statusRoutes(app); 
   memberRoutes(app);
+  ticketRoutes(app);
 }
