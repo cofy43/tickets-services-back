@@ -36,7 +36,7 @@ module.exports = {
                 ),
                 {
                   // secure: true,
-                  domain: ".netlify.app",
+                  domain: "tickets-services.netlify.app",
                   sameSite: "none",
                   expires: moment().add(1, "d").toDate(),                  
                 }
@@ -85,7 +85,7 @@ module.exports = {
       ),
       {
         // secure: true,
-        domain: ".netlify.app",
+        domain: "tickets-services.netlify.app",
         expires: moment().toDate()
       }
     )
