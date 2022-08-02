@@ -35,7 +35,7 @@ module.exports = {
                   "8d"
                 ),
                 {
-                  secure: false,                  
+                  secure: true,                  
                   sameSite: "none",
                   expires: moment().add(1, "d").toDate(),                  
                 }
