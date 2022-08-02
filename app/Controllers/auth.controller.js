@@ -35,8 +35,7 @@ module.exports = {
                   "8d"
                 ),
                 {
-                  secure: false,
-                  domain: ".netlify.app",
+                  secure: false,                  
                   sameSite: "none",
                   expires: moment().add(1, "d").toDate(),                  
                 }
@@ -84,8 +83,7 @@ module.exports = {
         '0d'
       ),
       {
-        secure: false,
-        domain: ".netlify.app",
+        secure: false,        
         expires: moment().toDate()
       }
     )
