@@ -80,7 +80,7 @@ module.exports = {
   },
 
   ticketInfoForCustomer(req, res) {
-    const { ticketName } = req.body;
+    const { ticketName } = req.query;
     db.ticket
       .findOne({
         where: {
