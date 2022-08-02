@@ -6,7 +6,10 @@ module.exports = {
     const token = req.cookies['Auth-Token']
     if (token) {
       jwt.verify(token, TOKEN_SECRET, (err, member) => {
-        if (err || (member.ip !== req.ip) || member.memberId === undefined) {
+        if (err || member.memberId === undefined) {
+          console.log(err);
+          console.log(member.ip);
+          console.log(req.ip);
           return res
             .status(401)
             .send({ message: "No tienes autorización para realizar la acción" })
@@ -15,27 +18,7 @@ module.exports = {
           next()
         }
       })
-    } else {
-      return res
-        .status(401)
-        .send({ message: "No tienes autorización para realizar la acción" })
-    }
-  },
-
-  authenticateEmailJWT (req, res, next) {
-    const token = req.headers.authorization    
-    if (token) {
-      jwt.verify(token, TOKEN_SECRET, (err, user) => {        
-        if (err || user.email === undefined) {
-          return res
-            .status(401)
-            .send({ message: "No tienes autorización para realizar la acción" })
-        } else {
-          req.user = user
-          next()
-        }
-      })
-    } else {
+    } else {      
       return res
         .status(401)
         .send({ message: "No tienes autorización para realizar la acción" })
