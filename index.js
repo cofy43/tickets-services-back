@@ -16,7 +16,6 @@ app.use(
   cors({
     origin: [FRONT_URL, "http://localhost:3001/"],
     credentials: true,
-    origin: true,
   })
 );
 
