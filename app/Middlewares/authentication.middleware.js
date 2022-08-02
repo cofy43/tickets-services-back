@@ -1,31 +1,30 @@
-const jwt = require('jsonwebtoken')
-const { TOKEN_SECRET, TOKEN_EXPIRES } = require('../Config')
+const jwt = require("jsonwebtoken");
+const { TOKEN_SECRET, TOKEN_EXPIRES } = require("../Config");
 
 module.exports = {
-  authenticateJWT (req, res, next) {
-    const token = req.cookies['Auth-Token']
+  authenticateJWT(req, res, next) {
+    const token = req.cookies["Auth-Token"];
     if (token) {
       jwt.verify(token, TOKEN_SECRET, (err, member) => {
         if (err || member.memberId === undefined) {
-          console.log(err);
-          console.log(member.ip);
-          console.log(req.ip);
           return res
             .status(401)
-            .send({ message: "No tienes autorización para realizar la acción" })
+            .send({
+              message: "No tienes autorización para realizar la acción",
+            });
         } else {
-          req.member = member
-          next()
+          req.member = member;
+          next();
         }
-      })
-    } else {      
+      });
+    } else {
       return res
         .status(401)
-        .send({ message: "No tienes autorización para realizar la acción" })
+        .send({ message: "No tienes autorización para realizar la acción" });
     }
   },
 
-  generateJWT (body, expires = TOKEN_EXPIRES) {    
-    return jwt.sign(body, TOKEN_SECRET, { expiresIn: expires })
-  }
-}
+  generateJWT(body, expires = TOKEN_EXPIRES) {
+    return jwt.sign(body, TOKEN_SECRET, { expiresIn: expires });
+  },
+};

@@ -14,8 +14,9 @@ app.use(express.json()); // parse requests of content-type - application/json
 
 app.use(
   cors({
-    origin: [FRONT_URL, "http://localhost:3000/"],
+    origin: [FRONT_URL, "http://localhost:3001/"],
     credentials: true,
+    origin: true,
   })
 );
 
