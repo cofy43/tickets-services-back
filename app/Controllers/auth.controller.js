@@ -66,14 +66,8 @@ module.exports = {
   logout(req, res) {    
     const token = req.cookies['Auth-Token']
     jwt.verify(token, TOKEN_SECRET, (err, member) => {
-      if (!err && (member.ip === req.clientIp) && member.memberId !== undefined) {
-        redisClient.del(member.memberId, function(err, response) {
-          if (response == 1) {
-            console.log("Deleted Successfully!")
-          } else{
-           console.log("Cannot delete")
-          }
-        });
+      if (!err && member.memberId !== undefined) {        
+        console.log("Deleted Successfully!")        
       }
     })
     return res.cookie(
