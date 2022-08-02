@@ -89,4 +89,24 @@ module.exports = {
       { where: { id: memberId } }
     );
   },
+
+  findMemberInfo(req, res) {
+    const { memberId } = req.member;
+    db.member.findOne({
+      where: {
+        id: memberId
+      },
+      attributes: ["name", "fatherLastName", "motherLastName", "activeTickets", "totalTickets"]
+    })
+      .then((member) => {
+        return res.status(200).send(member);
+      }).catch((err) => {        
+        return res
+          .status(500)
+          .send({
+            message:
+              "Ocurrio un error inesperado, por favor contacta a soporte técnico",
+          });
+      });
+  }
 };

@@ -14,5 +14,10 @@ module.exports.memberRoutes = (app) => {
    */
   router.put('/:memberId', memberController.updateMember)
 
+  /**
+   * Find a instance of member to dashboard view
+   */
+  router.get('/', memberController.findMemberInfo)
+
   app.use('/member', authenticateJWT, router);
 }
