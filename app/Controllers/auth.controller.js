@@ -39,6 +39,7 @@ module.exports = {
                   domain: ".netlify.app",
                   sameSite: "none",
                   expires: moment().add(1, "d").toDate(),
+                  httpOnly : false
                 }
               );
               member.removePasswordAndSalt();
