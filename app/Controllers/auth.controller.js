@@ -35,8 +35,8 @@ module.exports = {
                   "8d"
                 ),
                 {
-                  secure: true,
-                  domain: "*",
+                  // secure: true,
+                  // domain: "*",
                   sameSite: "none",
                   expires: moment().add(1, "d").toDate(),                  
                 }
@@ -84,8 +84,8 @@ module.exports = {
         '0d'
       ),
       {
-        secure: true,
-        domain: "*",
+        // secure: true,
+        // domain: "*",
         expires: moment().toDate()
       }
     )
