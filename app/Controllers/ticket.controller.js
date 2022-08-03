@@ -112,7 +112,7 @@ module.exports = {
           memberId: memberId,
         },
         include: [
-          { model: db.status, attributes: ["id", "name", "position"] },
+          { model: db.status, attributes: ["id", "name", "position", "esFinal"] },
           { model: db.client },
         ],
       })
