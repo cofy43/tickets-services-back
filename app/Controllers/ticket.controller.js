@@ -59,8 +59,6 @@ module.exports = {
         where: {
           id: ticketId,
         },
-        returning: true,
-        plain: true,
         include: [{ model: db.status, attributes: ["esFinal"] }],
       })
       .then((ticket) => {
@@ -68,7 +66,7 @@ module.exports = {
           // Reduced the active tickets count of member
           next();
         }
-        return res.status(200).send(ticket);
+        return res.status(200).send({ message: "Se ha actualizado la información del ticket" });
       })
       .catch((err) => {
         console.log(err);
