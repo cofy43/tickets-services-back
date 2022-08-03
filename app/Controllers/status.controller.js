@@ -83,6 +83,7 @@ module.exports = {
             return {
               id: status.dataValues.id,
               statusName: status.dataValues.name,
+              esFinal: status.dataValues.esFinal,
             };
           }
         );        
