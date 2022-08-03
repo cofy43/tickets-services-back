@@ -69,8 +69,12 @@ module.exports = {
         if (status.length === 2) {
           ticket.dataValues.status.dataValues.nextStatusId =
             status[0].dataValues.id;
+          ticket.dataValues.status.dataValues.nextStatus =
+            status[0].dataValues.name;
           ticket.dataValues.status.dataValues.previusStatusId =
             status[1].dataValues.id;
+          ticket.dataValues.status.dataValues.previusStatus =
+            status[1].dataValues.name;
         } else if (status.length) {
           ticket.dataValues.status.dataValues.nextStatusId =
             status[0].dataValues.id;
