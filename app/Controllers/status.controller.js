@@ -57,28 +57,35 @@ module.exports = {
     db.status
       .findAll({
         where: {
-          [Op.and]: [
-            { position: [position - 1, position + 1] },
-            { esFinal: false },
-          ],
+          [Op.or] : [
+            {[Op.and]: [
+              { position: [position - 1, position + 1] },
+              { esFinal: false },
+            ]},
+            {esFinal: true}
+          ]
+          
         },
       })
       .then((status) => {
         // We has previus and next status
         const ticket = req.ticket;
-        if (status.length === 2) {
-          ticket.dataValues.status.dataValues.nextStatusId =
-            status[0].dataValues.id;
-          ticket.dataValues.status.dataValues.nextStatus =
-            status[0].dataValues.name;
+        const previusStatus = status.find((status) =>status.dataValues.position === position-1);        
+        if (previusStatus) {
           ticket.dataValues.status.dataValues.previusStatusId =
-            status[1].dataValues.id;
+            previusStatus.dataValues.id;
           ticket.dataValues.status.dataValues.previusStatus =
-            status[1].dataValues.name;
-        } else if (status.length) {
-          ticket.dataValues.status.dataValues.nextStatusId =
-            status[0].dataValues.id;
+            previusStatus.dataValues.name;
         }
+        const nextStatus = status.filter((status) => status.dataValues.position > position);
+        ticket.dataValues.status.dataValues.nextStatus = nextStatus.map(
+          (status) => {
+            return {
+              id: status.dataValues.id,
+              statusName: status.dataValues.name,
+            };
+          }
+        );        
         return res.status(200).send(ticket);
       })
       .catch((err) => {
