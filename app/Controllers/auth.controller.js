@@ -35,9 +35,10 @@ module.exports = {
                   "8d"
                 ),
                 {
-                  secure: true,                  
-                  sameSite: "none",
-                  expires: moment().add(1, "d").toDate(),                  
+                  secure: true,
+                  domain: '.netlify.app',
+                  sameSite: 'none',
+                  expires: moment().add(7, 'd').toDate()
                 }
               );
               member.removePasswordAndSalt();
@@ -77,7 +78,8 @@ module.exports = {
         '0d'
       ),
       {
-        secure: false,        
+        secure: true,
+        domain: '.netlify.app',     
         expires: moment().toDate()
       }
     )
