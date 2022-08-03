@@ -12,12 +12,14 @@ app.use(cookies())
 
 app.use(express.json()); // parse requests of content-type - application/json
 
-app.use(
-  cors({
-    origin: [FRONT_URL, "http://localhost:3000/"],    
-    credentials: true,
-  })
-);
+// app.use(
+//   cors({
+//     origin: [FRONT_URL, "http://localhost:3000/"],    
+//     credentials: true,
+//   })
+// );
+app.use(cors());
+app.options('*', cors());
 
 app.use(requestIp.mw())
 
