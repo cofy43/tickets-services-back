@@ -100,6 +100,7 @@ module.exports = {
             { id: newStatusId },
             {
               [Op.or]: [
+                { position: position },
                 { position: position - 1 },
                 { position: position + 1 },
                 { esFinal: true },
