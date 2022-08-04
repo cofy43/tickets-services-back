@@ -68,7 +68,12 @@ module.exports = {
     const token = req.cookies['homely-Ticket-Auth-Token']
     jwt.verify(token, TOKEN_SECRET, (err, member) => {
       if (!err && member.memberId !== undefined) {        
-        res.clearCookie("homely-Ticket-Auth-Token"),
+        res.clearCookie("homely-Ticket-Auth-Token", {
+          secure: true,
+          // domain: '.netlify.app',
+          sameSite: 'none',
+          expires: moment().add(7, 'd').toDate()
+        }),
         res.end()        
         return res.status(200);
       } else {        
