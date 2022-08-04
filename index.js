@@ -7,7 +7,6 @@ const requestIp = require('request-ip')
 var cookies = require("cookie-parser")
 
 const app = express();
-const allowList = [FRONT_URL, "http://localhost:3001"]
 
 app.use(cookies())
 
@@ -15,17 +14,10 @@ app.use(express.json()); // parse requests of content-type - application/json
 
 app.use(
   cors({
-    origin: function (origin, callback) {
-      // Log and check yourself if the origin actually matches what you've defined in the allowList array
-      console.log(origin);
-      console.log(allowList);
-      if (allowList.indexOf(origin) !== -1 || !origin) {
-        callback(null, true)
-      } else {        
-        callback(new Error('Not allowed by CORS'))
-      }
-    },
+    origin: [FRONT_URL],
+    methods: ["GET", "POST", "PUT", ],
     credentials: true,
+    origin: true,
   })
 );
 
