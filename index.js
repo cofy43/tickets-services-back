@@ -12,12 +12,15 @@ app.use(cookies())
 
 app.use(express.json()); // parse requests of content-type - application/json
 
+whitelist = [FRONT_URL]
 app.use(
   cors({
-    origin: [FRONT_URL],
-    methods: ["GET", "POST", "PUT", ],
+    origin: function(origin, callback){
+      // allow requests with no origin 
+      // (like mobile apps or curl requests)
+      return callback(null, true);
+    },
     credentials: true,
-    origin: true,
   })
 );
 
