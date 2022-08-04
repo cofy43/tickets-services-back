@@ -64,15 +64,14 @@ module.exports = {
       });
   },
 
-  logout(req, res) {    
-    const token = req.cookies['Auth-Token']
+  logout(req, res) {        
+    const token = req.cookies['homely-Ticket-Auth-Token']
     jwt.verify(token, TOKEN_SECRET, (err, member) => {
       if (!err && member.memberId !== undefined) {        
         res.clearCookie("homely-Ticket-Auth-Token"),
-        res.end()
-        console.log("Deleted Successfully!")
-        return res.status(200);        
-      } else {
+        res.end()        
+        return res.status(200);
+      } else {        
         return res.status(500).send({ message: "Ocurrio un error inesperado, contacta a soporte tecnico" })
       }
     })
