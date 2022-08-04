@@ -18,12 +18,11 @@ app.use(
     origin: function (origin, callback) {
       // Log and check yourself if the origin actually matches what you've defined in the allowList array
       console.log(origin);
-  
+      console.log(allowList);
       if (allowList.indexOf(origin) !== -1 || !origin) {
         callback(null, true)
-      } else {
-        callback(origin, true)
-        //callback(new Error('Not allowed by CORS'))
+      } else {        
+        callback(new Error('Not allowed by CORS'))
       }
     },
     credentials: true,
