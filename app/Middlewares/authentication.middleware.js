@@ -3,7 +3,7 @@ const { TOKEN_SECRET, TOKEN_EXPIRES } = require("../Config");
 
 module.exports = {
   authenticateJWT(req, res, next) {
-    const token = req.cookies["Auth-Token"];
+    const token = req.cookies["homely-Ticket-Auth-Token"];
     if (token) {
       jwt.verify(token, TOKEN_SECRET, (err, member) => {
         if (err || member.memberId === undefined) {

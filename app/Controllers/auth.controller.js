@@ -7,7 +7,6 @@ const { TOKEN_SECRET } = require('../Config')
 module.exports = {
   login(req, res) {
     const { email, password } = req.body;
-    console.log(req);
     db.member
       .findOne({
         where: {
@@ -25,7 +24,7 @@ module.exports = {
           .then((isPassword) => {
             if (isPassword) {
               res.cookie(
-                "Auth-Token",
+                "homely-Ticket-Auth-Token",
                 generateJWT(
                   {
                     memberId: member.dataValues.id,
@@ -37,7 +36,7 @@ module.exports = {
                 ),
                 {
                   secure: true,
-                  domain: '.netlify.app',
+                  // domain: '.netlify.app',
                   sameSite: 'none',
                   expires: moment().add(7, 'd').toDate()
                 }
@@ -69,25 +68,13 @@ module.exports = {
     const token = req.cookies['Auth-Token']
     jwt.verify(token, TOKEN_SECRET, (err, member) => {
       if (!err && member.memberId !== undefined) {        
-        console.log("Deleted Successfully!")        
+        res.clearCookie("homely-Ticket-Auth-Token"),
+        res.end()
+        console.log("Deleted Successfully!")
+        return res.status(200);        
+      } else {
+        return res.status(500).send({ message: "Ocurrio un error inesperado, contacta a soporte tecnico" })
       }
     })
-    return res.cookie(
-      'Auth-Token',
-      generateJWT(
-        {},
-        '0d'
-      ),
-      {
-        secure: true,
-        domain: '.netlify.app',     
-        expires: moment().toDate()
-      }
-    )
-    //res
-    //  .clearCookie('iBrain-Auth-Token')
-      .status(200)
-      .send({ message: 'Successfully logged out' })
-      //.json()
   }
 };
